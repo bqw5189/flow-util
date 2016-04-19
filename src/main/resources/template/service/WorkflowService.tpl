@@ -22,7 +22,7 @@ public class <#$workflowType#>Service extends FlowBaseService {
 
         <#foreach from=$panels item=panel#>
         //<#$panel.title#><#foreach from=$panel.elements item=element#>
-        regixEntityList.add(RegixEntity.create("<#$element.id#>", "<#$element.tagName#>", "#<#$element.id#>"));<#/foreach#>
+        regixEntityList.add(RegixEntity.create("<#$element.id#>", "<#$element.tagName#>", "#<#$element.valueId#>"));<#/foreach#>
         <#/foreach#>
 
         //产品信息
@@ -88,5 +88,10 @@ public class <#$workflowType#>Service extends FlowBaseService {
             }
             return new ResponseEntity(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
         }
+
+    //BaklogType
+    //<#$workflowName#>
+    backlogUriData = new BacklogUriData(<#$workflowType#>Service.FLOW_TYPE,"/static/custom/secco/backlogs/<#$workflowType#>/detail.html","/WorkFlow/CheckDetail.aspx");
+    backLogTypeMap.put(<#$workflowType#>Service.FLOW_TYPE,backlogUriData);
 
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class FreeOfChargeOrder extends WorkflowBase{
     private static final Logger logger = LoggerFactory.getLogger(FreeOfChargeOrder.class);
 
-    public static final String WORKFLOW_NAME = "免费发货订单";
+    public static final String WORKFLOW_NAME = "免费发货单";
     public static final String WORKFLOW_TYPE = "FreeOfChargeOrder";
 
     public FreeOfChargeOrder(String username, String password, String busId, String checkType, String id) {
