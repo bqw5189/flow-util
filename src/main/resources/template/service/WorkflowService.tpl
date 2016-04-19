@@ -76,4 +76,17 @@ public class <#$workflowType#>Service extends FlowBaseService {
                 type = <#$workflowType#>Service.FLOW_TYPE;
             }
 
+    @RequestMapping(value="/<#$workflowType#>",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+        @ResponseBody
+        @LogForDbAnnotation(title="<#$workflowName#>数据爬取",operationType="第三方服务日志",level="中级")
+        public ResponseEntity<?> parse<#$workflowType#>(
+                @RequestParam("parseUrl") String parseUrl,
+                @RequestParam("type") String type,
+                @RequestParam("token") String token) {
+            if ("0:1".equals(type) || "0:2".equals(type)) {
+                return new ResponseEntity(webParseService.parse<#$workflowType#>(parseUrl,type,token),HttpStatus.OK);
+            }
+            return new ResponseEntity(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        }
+
 }
