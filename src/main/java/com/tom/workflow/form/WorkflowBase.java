@@ -137,19 +137,33 @@ public abstract class WorkflowBase {
             Element title = panel.select("span").first();
             Panel pagePanel = new Panel(title.attr("id"), title.text(), documentEN.getElementById(title.attr("id")).text());
 
-            for (Element tr: panel.select("tr")){
-                Elements ths = tr.select("th");
-                logger.debug("page element:{}", ths);
+//            for (Element tr: panel.select("tr")){
+                Elements ths = panel.select("div.content table.table-1 tbody tr th");
+                logger.debug("{} -> page element:{}", title.text(), ths);
                 for (Element th: ths) {
                     Element pageElement = th.select("span").first();
                     Element valueElement = th.nextElementSibling();
-                    if (null != valueElement) {
+                    if (null != pageElement && null != valueElement) {
                         if (null != valueElement.select("span").first()) {
                             pagePanel.addElement(pageElement.attr("id"),pageElement.tagName(), pageElement.text(), documentEN.getElementById(pageElement.attr("id")).text(), valueElement.select("span").first().attr("id"));
+                        }else{
+                            pagePanel.addElement(pageElement.attr("id"),"td", pageElement.text(), documentEN.getElementById(pageElement.attr("id")).text(), valueElement.attr("id"));
                         }
+
                     }
                 }
-            }
+
+                //表格处理
+                if(ths.size() == 0){
+                    Element table = panel.select(".grid").first();
+                    logger.debug("table:{}", table);
+                    if (null != table) {
+                        pagePanel.addElement(table.attr("id"),table.tagName(), "", "", table.attr("id"));
+                        pagePanel.setType("table");
+                    }
+
+                }
+//            }
 
             logger.debug("panel :{}", pagePanel);
             result.add(pagePanel);

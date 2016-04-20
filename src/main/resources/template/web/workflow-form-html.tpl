@@ -29,31 +29,24 @@
         <div class="panel panel-padding" align="left">
         <#foreach from=$panels item=panel#>
         <!--  <# $panel.title #> -->
-            <div class="input-group input-group-padding">
-                <div class="icon info" onclick="">
-                    <span field-label="<#$panel.id#>"></span>
-                </div>
-                <div id="<#$panel.id#>">
-                    <table>
-                    <#foreach from=$panel.elements item=element#>
-                        <tr>
-                            <td width="34%"><span field-label="<#$element.id#>"></span></td>
-                            <td id="<#$element.id#>"></td>
-                        </tr>
-                    <#/foreach#>
-                    </table>
-                 </div>
+        <div class="input-group input-group-padding">
+            <div class="icon info" onclick="">
+                <span field-label="<#$panel.id#>"></span>
             </div>
-        <#/foreach#>
+            <#if $panel.type == "value" #>
+            <div id="<#$panel.id#>">
+                <table>
+                    <#foreach from=$panel.elements item=element#><tr>
+                        <td width="34%"><span field-label="<#$element.id#>"></span></td>
+                        <td id="<#$element.id#>"></td>
+                    </tr><#/foreach#>
+                </table>
+             </div>
+             <#/if#>
+             <#if $panel.type != "value" #><#foreach from=$panel.elements item=element#><div id="<#$element.id#>" class="overflow-x">
+             </div><#/foreach#><#/if#>
+        </div><#/foreach#>
 
-            <!-- 相关附件  -->
-            <div class="input-group input-group-padding">
-                <div class="icon download" onclick="">
-                    <span field-label="Related"></span>
-                </div>
-                <div id="Related">
-                </div>
-            </div>
             <!-- 审查审批历史  -->
             <div class="input-group input-group-padding">
                 <div class="icon magnifier" onclick="">

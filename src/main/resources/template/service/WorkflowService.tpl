@@ -1,6 +1,9 @@
 package com.daosheng.field.service.backlog.detail.webparse;
 
 
+mport com.daosheng.field.service.backlog.relation.BacklogType;
+import com.daosheng.field.service.backlog.relation.BacklogUriData;
+import com.daosheng.field.service.backlog.strategy.ApproveBacklogPageVo;
 import com.daosheng.field.service.webParse.entity.RegixEntity;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +19,17 @@ public class <#$workflowType#>Service extends FlowBaseService {
     public final static String FLOW_TYPE = "<#$workflowType#>";
     public final static String FLOW_NAME = "<#$workflowName#>";
 
+    public final static String FLOW_DETAIL_URI = "/static/custom/secco/backlogs/<#$workflowType#>/detail.html";
+    public final static String FLOW_H3_DETAIL_URI = "/WorkFlow/CheckDetail.aspx";
+
+        static{
+            //初始化 渲染页面信息
+            BacklogUriData backlogUriData = new BacklogUriData(FLOW_TYPE,FLOW_DETAIL_URI,FLOW_H3_DETAIL_URI);
+            BacklogType.putUriData(FLOW_TYPE, backlogUriData);
+
+            ApproveBacklogPageVo.putBacklogNameAndType(FLOW_NAME, FLOW_TYPE);
+        }
+
     @Override
     protected List<RegixEntity> buildRegixEntity() {
         List<RegixEntity> regixEntityList = new ArrayList<RegixEntity>();
@@ -24,15 +38,6 @@ public class <#$workflowType#>Service extends FlowBaseService {
         //<#$panel.title#><#foreach from=$panel.elements item=element#>
         regixEntityList.add(RegixEntity.create("<#$element.id#>", "<#$element.tagName#>", "#<#$element.valueId#>"));<#/foreach#>
         <#/foreach#>
-
-        //产品信息
-        regixEntityList.add(RegixEntity.create("ProductList", RegixEntity.PARSE_TYPE_TABLE, "table", "#ctl00_body_gvProductsInfor"));
-
-        //备注
-        regixEntityList.add(RegixEntity.create("Dome", "span", "#ctl00_body_txtDome"));
-
-        //附件
-        regixEntityList.add(RegixEntity.create("Related", "td", "#ctl00_body_ContractAttachment1_tdDownFile"));
 
         return regixEntityList;
     }
@@ -72,9 +77,7 @@ public class <#$workflowType#>Service extends FlowBaseService {
         return resp;
     }
 
-    else if(<#$workflowType#>Service.FLOW_NAME.equalsIgnoreCase(type)) {
-                type = <#$workflowType#>Service.FLOW_TYPE;
-            }
+
 
     @RequestMapping(value="/<#$workflowType#>",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody
@@ -88,10 +91,5 @@ public class <#$workflowType#>Service extends FlowBaseService {
             }
             return new ResponseEntity(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
         }
-
-    //BaklogType
-    //<#$workflowName#>
-    backlogUriData = new BacklogUriData(<#$workflowType#>Service.FLOW_TYPE,"/static/custom/secco/backlogs/<#$workflowType#>/detail.html","/WorkFlow/CheckDetail.aspx");
-    backLogTypeMap.put(<#$workflowType#>Service.FLOW_TYPE,backlogUriData);
 
 }

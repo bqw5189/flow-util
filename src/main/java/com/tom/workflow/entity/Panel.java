@@ -10,6 +10,7 @@ public class Panel {
     private String id;
     private String title;
     private String titleEN;
+    private String type = "value";
 
     public Panel(String id, String title, String titleEN) {
         this.id = id;
@@ -56,12 +57,21 @@ public class Panel {
         this.titleEN = titleEN;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Panel{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", titleEN='" + titleEN + '\'' +
+                ", type='" + type + '\'' +
                 ", elements=" + elements +
                 '}';
     }
