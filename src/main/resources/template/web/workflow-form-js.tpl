@@ -32,7 +32,7 @@ $(function () {
         param: paramStr, control: "webParse/<#$workflowType#>", callbackFn: function (val) {
             <#foreach from=$panels item=panel#>
             //<# $panel.title #><#foreach from=$panel.elements item=element#>
-            <#if $element.tagName == "table" #>buildUtils.buildTable("<#$element.id#>", val["<#$element.id#>"]);<#/if#><#if $element.tagName == "td" #>buildUtils.buildAnnex("<#$element.id#>", val["<#$element.id#>"], "secco");<#/if#><#if $element.tagName == "span" #>$('#<#$element.id#>').text(val["<#$element.id#>"]);<#/if#><#/foreach#>
+            <#if $element.tagName == "table" #>buildUtils.buildTable("<#$element.id#>", val["<#$element.id#>"]);<#/if#><#if $element.tagName == "td" #>buildUtils.buildAnnex("<#$element.id#>", val["<#$element.id#>"], "secco");<#/if#><#if $element.tagName == "span" || $element.tagName == "textarea" #>$('#<#$element.id#>').text(val["<#$element.id#>"]);<#/if#><#/foreach#>
             <#/foreach#>
 
             if ("0:2" === type) {

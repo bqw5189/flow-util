@@ -100,14 +100,14 @@ public abstract class WorkflowBase {
      */
     public String getDetailViewUrlFormat(){
         return WORKFLOW_URL_FORMAT;
-    };
+    }
 
     /**
      * 详情页面 url
      * @return
      */
     public String getDetailViewUrl(){
-        return String.format(WORKFLOW_URL_FORMAT, Main.ROOT_URL, getType(), getType(), getBusId(), getCheckType(), getId());
+        return String.format(getDetailViewUrlFormat(), Main.ROOT_URL, getType(), getType(), getBusId(), getCheckType(), getId());
     }
 
     /**
@@ -142,10 +142,16 @@ public abstract class WorkflowBase {
                 logger.debug("{} -> page element:{}", title.text(), ths);
                 for (Element th: ths) {
                     Element pageElement = th.select("span").first();
-                    Element valueElement = th.nextElementSibling();
-                    if (null != pageElement && null != valueElement) {
-                        if (null != valueElement.select("span").first()) {
-                            pagePanel.addElement(pageElement.attr("id"),pageElement.tagName(), pageElement.text(), documentEN.getElementById(pageElement.attr("id")).text(), valueElement.select("span").first().attr("id"));
+                    Element valueTdElement = th.nextElementSibling();
+                    if (null != pageElement && null != valueTdElement) {
+                        Element valueElement = valueTdElement.child(0);
+                        if (null != valueElement) {
+                            if ("a".equals(valueElement.tagName())){
+                                pagePanel.addElement(pageElement.attr("id"),"td", pageElement.text(), documentEN.getElementById(pageElement.attr("id")).text(), valueTdElement.attr("id"));
+                            }else{
+                                pagePanel.addElement(pageElement.attr("id"),valueElement.tagName(), pageElement.text(), documentEN.getElementById(pageElement.attr("id")).text(), valueElement.attr("id"));
+                            }
+
                         }else{
                             pagePanel.addElement(pageElement.attr("id"),"td", pageElement.text(), documentEN.getElementById(pageElement.attr("id")).text(), valueElement.attr("id"));
                         }
